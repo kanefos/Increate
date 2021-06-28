@@ -42,6 +42,10 @@ Also interested in in _kallistobus_:
 - https://github.com/Acribbs/scflow
 - https://github.com/pachterlab/kb_python 
 
+Notes about fastqs
+- https://twitter.com/XiChenUoM/status/1408986141949272071
+- Try to remember looking at this next time I run cellranger
+
 ### 1.1 DataImport.py
 - Processing from uploaded data or raw feature-barcode-matrice files (i.e. own experiments).
 - Externally, process data to either a standardise .h5ad file (raw data), or an assembly of X, obs and var
