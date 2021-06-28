@@ -90,6 +90,13 @@ Percentage mitochondrial counts
 Percentage ribosomal counts
 - Use sparingly. Had success in removing RBC from haematological samples, but there is too much variation in baseline cellular % Ribo expression to rely on this metric for downstream work. 
 
+#### Doublets
+- _doubletdetection_ tool, default settings
+- _scrublet_ tool, default settings
+- Do on raw matrix, sample-wise (note, post-QC)
+- By using 2 orthogonal approaches, better interrogate likelihood of double encapsulation events
+- Useful tools, but marker genes are usually key here also.
+
 #### Misc Steps
 MALAT1
 - Remove MALAT1 - general QC? 
@@ -101,26 +108,14 @@ Ig Genes
 - Mark via gene string start IGH/IGL/IGK
 - Dotplot suggests not as much an issue but worth doing
 
-#### Doublets
-- _doubletdetection_ tool, default settings
-- _scrublet_ tool, default settings
-- Do on raw matrix, sample-wise (note, post-QC)
-- By using 2 orthogonal approaches, better interrogate likelihood of double encapsulation events
-- 
-
-
-
 #### Contaminant Cells
 - Coarse cell type identification
     - Very low-level: i.e. red blood cells, tumour cells
-- Basically: do scanpy in-built clustering pipeline with Harmony.py on PCs with sample=theta2, recover clusters enriched in HBA1 or CD138
-- In downstream actual cell identification script, may eliminate more 
-- Cell-wise
-    - i.e. HBA1 expression highest in one violin
 
 #### Assessing outputs
 See output_df, preprocessing_output_df.csv (note: saved to graphs dir)
 - Self-explanatory but info can be further acquired in-script
+]
 
 ### 1.3 PreNorm.py
 #### Sample-wise Coarse Clustering
@@ -134,15 +129,12 @@ See output_df, preprocessing_output_df.csv (note: saved to graphs dir)
 - This is the point in the workflow where re-normalisation, correction, and clustering etc of specific subsets would occur, i.e. T-cells, Myeloid cells etc
 - There is a specific section dedicated to creating data like this
 
-
-
 ### 1.4 ScranNorm.R
 Normalisation
 - scran size factor normlisation, coarse Leiden clustering as input clusters
 - May need to cut any samples/coarse clusters giving rise to negative size factors (in PreNorm.py)
 - Apply to dataset, log2-transform
-
-
+- 
 ### 1.4.1 sctransform.R
 Normalisation
 - Perform the suposedly count-depth robust sctransformation and HVG selection tool within Seurat wrapper
@@ -152,15 +144,12 @@ Normalisation
 - Warning! `sctransform_matrix.npz` is a vast file - about 7GB of my 500GB memory Mac!
 
 ### 1.5 PostNorm.py
-#### Apply normalisation
-- Numpy vectorized computer
-
-#### Anndata.raw
-- Set the`.raw`attribute of the AnnData object to the normalized and logarithmized raw gene expression for later use in differential testing and visualizations of gene expression. This simply freezes the state of the AnnData object.
-- You can get back an`AnnData`of the object in`.raw`by calling`.raw.to_adata()`.
-
+#### Apply scran normalisation
+- Numpy vectorized computing critical here
+#### Total-count normalisation
+- i.e. scanpy default. Also valid. Had success with low-depth, non-batch corrected b16sc data.
 #### Gene Scaling 
-
+- Done later. Only needs performing on HVGs used to calculate PCA.
 
 ### 1.x Integration.py
 - Integration is to be done, when possible, purely for visualisation purposes (at least when using Harmony, a batch-corrected expression matrix can always be used later, i.e. DEGs)
@@ -176,7 +165,6 @@ Workflow
 4. harmony-adjusted PCs feed into scanpy clustering pipeline
 Adam email:
 - "One of my postdocs has a pipeline that she finished where she tests the SCT and harmony. This is for a separate endometrial tissue project and im waiting for results from her. A PhD student in the lab will use the pipeline on myeloma patient samples and I will have the data soon, hopefully."
-
 ### 1.x Integration.R
 - Notes for above
 
@@ -185,22 +173,15 @@ Adam email:
 ## 2. Clustering-Phenotyping
 
 ### 2.1 Clustering
-
 Takes normalised data with a majority of contaminant populations removed.
 
-#### HVG Selection
+HVG Selection
 - Scanpy defaults
-
-#### Batch Correction with Harmony
+Batch Correction with Harmony
 - Harmony with default settings on `samples` 
 - Annotate PCA to matrix
 - Tried without, usually looks messy (both on UMAP and with clustering)
-
-##### Batch-correction: counts matrix?
-- Surely would want to do harmony batch-correction here too?
-- See Adam's eventual reply
-
-#### Prerequisites
+Prerequisites
 - HVG selection: have used dataset-wise scanpy defaults, but still slightly skeptical - idea of combining HVHs across samples still appealing
 - Gene scaling: still no consensus so for now can run both
     - May need to do anyway just for my data to interface with other resources (which were scaled)
@@ -331,7 +312,7 @@ Calinski Harabaz Index
 `metrics.calinski_harabasz_score(scaled_feature_data, cluster_labels)`
 
 
-#### Gueguen-2021 xlustering metadata
+#### Gueguen-2021 clustering metadata
 - clustree cluster membership as a function of cluster resolution
     - A split that occurs early between 2 clusters indicates the importance and robustness of the differences between the two
     - 'The early separation (low resolution of 0.2) between the resident and circulating part of CD8+ indicates that these 2 subparts of the datasets are the strongest difference within the data'
