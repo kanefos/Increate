@@ -1334,3 +1334,6 @@ If I want to take advantage of scanpy plotting API, can manually set the adata.u
 
 ### GIFs in matplot lib
 https://towardsdatascience.com/basics-of-gifs-with-pythons-matplotlib-54dd544b6f30
+
+### repel labesl in matplotlib
+https://github.com/Phlya/adjustText
