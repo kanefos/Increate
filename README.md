@@ -2,6 +2,12 @@
 
 Workflow for the analysis of single-cell RNA sequencing data.
 
+
+# temp notes:
+from b16sc learnt:
+- "Tmisc" AKA list of lower subsets in higher-order object critical and needs establishing
+- 
+
 ## Contents
 1. Preprocessing and quality control.
 2. Clustering and phenotyping.
