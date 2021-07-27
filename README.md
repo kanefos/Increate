@@ -61,6 +61,7 @@ Notes about fastqs
 Essential
 - Study name or data source: 'study'
 - Sample name or batch: 'sample'
+- Do _not_ include "sample_id', as will intefere with some downstream DEG testing
 Additional:
 -  - Tissue status i.e. disease/disease stage: 'tissue_status'
 Other:
