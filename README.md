@@ -6,7 +6,9 @@ Workflow for the analysis of single-cell RNA sequencing data.
 # temp notes:
 from b16sc learnt:
 - "Tmisc" AKA list of lower subsets in higher-order object critical and needs establishing
-- 
+- Uniform name for object clusters: i.e. pheno, phenoPl etc
+- Don't give concrete cluster names until later
+- Standardise R import early: get an .RData file (in agreement with scanpy object)
 
 ## Contents
 1. Preprocessing and quality control.
@@ -235,8 +237,7 @@ spread (default 1)
 
 spread doesn't move clusters much, but min_dist does
 
-
-# - a, b (harder to explain, start at both =1 and mess around a bit)
+- a, b (harder to explain, start at both =1 and mess around a bit)
 
 
 
@@ -274,9 +275,11 @@ Within scanpy:
     - Remember: sub-clustering can be done as many times as on likes (at least until number of cells limitng)
 
 
-### 2.x Clustering_extra
+### IncreateV3_2.x Clustering_extra
 
 This is an additional script / resource of materials for the downstream deeper analysis of specific clusters, after having done clustering/phenotyping - also some visual material i.e. clustree
+- This tools are only really useful if one leans heavily into trusting concept of clustering (i.e. discovery)
+- May also make some good metadata? Esp with TCRsharing / development between clusters
 
 - Various other clustering approaches, i.e. Leiden, Louvain, Heirarchal etc
 - Cluster metadata, i.e. QC and numerical info, i.e. depth, number of genes etc
